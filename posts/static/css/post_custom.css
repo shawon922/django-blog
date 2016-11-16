@@ -1,0 +1,11 @@
+.messages ul {
+    list-style: none;
+}
+
+.post-create-div, .post-update-div {
+    margin-bottom: 20px;
+}
+
+.post-detail p {
+    margin-top: 10px;
+}

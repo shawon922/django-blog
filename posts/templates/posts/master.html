@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <title>
+        {% block title %}
+
+        {% endblock %}
+    </title>
+
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/bootstrap/css/bootstrap-theme.min.css">
+
+
+    <script type="application/javascript" src="{{ STATIC_URL }}js/jQuery/jQuery-2.1.4.min.js"></script>
+    <script type="application/javascript" src="{{ STATIC_URL }}css/bootstrap/js/bootstrap.min.js"></script>
+
+    {% block static_content %}
+
+    {% endblock %}
+</head>
+<body>
+    <!-- Load Facebook SDK for JavaScript -->
+	<div id="fb-root"></div>
+	<script>
+        (function(d, s, id) {
+          var js, fjs = d.getElementsByTagName(s)[0];
+          if (d.getElementById(id)) return;
+          js = d.createElement(s); js.id = id;
+          js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.8";
+          fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
+
+
+    <div class="container">
+        <div class="row jumbotron">
+
+        </div>
+
+        <div class="col-md-offset-2 col-md-8">
+            {% if messages %}
+                <div class="messages">
+                    <ul class="messages">
+                        {% for message in messages %}
+                            <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+
+                </div>
+            {% endif %}
+        </div>
+
+
+        {% block content %}
+
+        {% endblock %}
+    </div>
+</body>
+</html>

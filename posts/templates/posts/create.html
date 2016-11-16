@@ -1,0 +1,24 @@
+{% extends 'posts/master.html' %}
+
+{% block title %}
+    {{ page_title }}
+{% endblock %}
+
+{% block static_content %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/post_custom.css" type="text/css" >
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-offset-2 col-md-8">
+            <form method="post" action="" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                {{ form.as_p }}
+
+                <input type="submit" value="Create Post" class="btn btn-success">
+            </form>
+        </div>
+    </div>
+
+{% endblock %}
