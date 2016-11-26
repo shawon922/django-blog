@@ -32,6 +32,10 @@
 
                 <a href="{% url 'posts:index' %}" class="btn btn-primary">Back</a>
             </div>
+
+            <div>
+                {{ post.comment_set.all }}
+            </div>
             <div class="fb-comments" data-href="{{ post.get_build_absolute_uri }}" data-numposts="5"></div>
 
         </div>
