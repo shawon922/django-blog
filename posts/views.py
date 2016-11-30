@@ -1,14 +1,16 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
+from django.contrib.contenttypes.models import ContentType
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from .models import Post
+from comments.models import Comment
 from .forms import PostForm
 
 
 def index(request):
-    posts_list = Post.objects.all() #.order_by("-timestamp")
+    posts_list = Post.objects.all()  # .order_by("-timestamp")
 
     paginator = Paginator(posts_list, 5)
     page_var = 'page1'
@@ -79,9 +81,14 @@ def update(request, id=None):
 def detail(request, id=None):
     post = get_object_or_404(Post, id=id)
 
+    content_type = ContentType.objects.get_for_model(Post)
+    obj_id = post.id
+    comments = Comment.objects.filter(content_type=content_type, object_id=obj_id)
+
     context = {
         'page_title': 'Post Detail',
-        'post': post
+        'post': post,
+        'comments': comments,
     }
     return render(request, 'posts/detail.html', context)
 

@@ -34,10 +34,20 @@
             </div>
 
             <div>
-                {{ post.comment_set.all }}
+                <p class="lead">
+                    Comments
+                </p>
+                {% for comment in comments %}
+                    <div class="">
+                        {{ comment.content }}
+                        <br>
+                        <small>via {{ comment.user_id.username }} | {{ comment.timestamp|timesince }} ago </small>
+                        <hr>
+                    </div>
+                {% endfor %}
             </div>
-            <div class="fb-comments" data-href="{{ post.get_build_absolute_uri }}" data-numposts="5"></div>
-
+            <!--<div class="fb-comments" data-href="{{ post.get_build_absolute_uri }}" data-numposts="5"></div>
+-->
         </div>
     </div>
 
