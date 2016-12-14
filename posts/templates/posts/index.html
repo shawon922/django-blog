@@ -17,8 +17,8 @@
             </div>
             {% for post in posts %}
                 <div class=" col-md-12 post-update-div">
-                    <a href="{% url 'posts:delete' post.id %}" class="pull-right"> Delete Post </a>
-                    <a href="{% url 'posts:update' post.id %}" class="pull-right"> Update Post | </a>
+                    <a href="{% url 'posts:delete' post.slug %}" class="pull-right"> Delete Post </a>
+                    <a href="{% url 'posts:update' post.slug %}" class="pull-right"> Update Post | </a>
                 </div>
                 <div class="post-summary">
                     {% if post.image %}

@@ -5,6 +5,10 @@ from django.db.models.signals import pre_save
 
 from django.utils.text import slugify
 
+from django.contrib.contenttypes.models import ContentType
+
+from comments.models import Comment
+
 
 def upload_location(instance, filename):
     # return "%s/%s" % (instance.id, filename)
@@ -15,7 +19,7 @@ def upload_location(instance, filename):
 
 
 class Post(models.Model):
-    user_id = models.ForeignKey(settings.AUTH_USER_MODEL, default=1)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, default=1)
     title = models.CharField(max_length=255)
     slug = models.SlugField(unique=True)
     image = models.ImageField(upload_to=upload_location,
@@ -36,7 +40,21 @@ class Post(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('posts:detail', kwargs={'id': self.id})
+        return reverse('posts:detail', kwargs={'slug': self.slug})
+
+    @property
+    def comments(self):
+        instance = self
+        qs = Comment.objects.filter_by_instance(instance)
+
+        return qs
+
+    @property
+    def get_content_type(self):
+        instance = self
+        content_type = ContentType.objects.get_for_model(instance.__class__)
+
+        return content_type
 
     class Meta:
         ordering = ['-timestamp', '-updated']

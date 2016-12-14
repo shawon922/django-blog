@@ -1,0 +1,54 @@
+{% extends 'posts/master.html' %}
+
+{% block title %}
+    {{ page_title }}
+{% endblock %}
+
+{% block static_content %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/post_custom.css" type="text/css" >
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-offset-3 col-md-6">
+            <blockquote>
+                <p>{{ comment.content }}</p>
+                <footer>via {{ comment.user.username }} | {{ comment.timestamp|timesince }} ago
+                    | {% if comment.children.count > 0 %} {{ comment.children.count }} repl{{ comment.children.count|pluralize:'y,ies' }} {% endif %}
+                    {% if request.user == comment.user %}
+                    | <a href="{% url 'comments:delete' comment.id %}" class=""> Delete </a>
+                    {% endif %}
+                </footer>
+                <hr>
+                <div>
+                    {% for reply in comment.children %}
+                        <blockquote>
+                            <p>{{ reply.content }}</p>
+                            <footer>via {{ reply.user.username }} | {{ reply.timestamp|timesince }} ago
+                                {% if request.user == reply.user %}
+                                | <a href="{% url 'comments:delete' reply.id %}" class=""> Delete </a>
+                                {% endif %}
+                            </footer>
+                        </blockquote>
+                    {% endfor %}
+
+                    {% if request.user.is_authenticated %}
+                        <form method="POST" action=".">
+                            {% csrf_token %}
+
+                            {{ comment_form.as_p }}
+
+                            <input type="hidden" name="parent_id" value="{{ comment.id }}">
+
+                            <input type="submit" value="Reply" class="btn btn-default">
+                        </form>
+                    {% else %}
+                        <p>You must login to reply.</p>
+                    {% endif %}
+                </div>
+
+            </blockquote>
+        </div>
+    </div>
+
+{% endblock %}

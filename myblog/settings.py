@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'pagedown',
 
     # local apps
+    'accounts',
     'comments',
     'posts',
 ]
@@ -57,6 +58,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+LOGIN_URL = '/login'
 
 ROOT_URLCONF = 'myblog.urls'
 
