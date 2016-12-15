@@ -74,6 +74,7 @@ def comment_thread(request, id=None):
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
     context = {
+        'page_title': 'Comment thread',
         'comment': comment,
         'comment_form': form,
     }
