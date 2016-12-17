@@ -57,8 +57,8 @@ def create(request):
 
 
 def update(request, slug=None):
-    if not request.user.is_staff or not request.user.is_superuser:
-        raise Http404
+    # if not request.user.is_staff or not request.user.is_superuser:
+    #    raise Http404
 
     if not request.user.is_authenticated:
         raise Http404
@@ -130,8 +130,8 @@ def detail(request, slug=None):
 
 
 def delete(request, slug=None):
-    if not request.user.is_staff or not request.user.is_superuser:
-        raise Http404
+    # if not request.user.is_staff or not request.user.is_superuser:
+    #    raise Http404
 
     if not request.user.is_authenticated:
         raise Http404
