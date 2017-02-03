@@ -13,8 +13,11 @@ from comments.models import Comment
 def upload_location(instance, filename):
     # return "%s/%s" % (instance.id, filename)
     PostModel = instance.__class__
-    new_id = Post.objects.order_by('id').last().id + 1
-    
+    posts = PostModel.objects.order_by('id').last()
+    if posts:
+        new_id = posts.id + 1
+    else:
+        new_id = 1
     return "%s/%s" % (new_id, filename)
 
 
