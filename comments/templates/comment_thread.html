@@ -14,7 +14,7 @@
             <blockquote>
                 <p>{{ comment.content }}</p>
                 <footer>via {{ comment.user.username }} | {{ comment.timestamp|timesince }} ago
-                    | {% if comment.children.count > 0 %} {{ comment.children.count }} repl{{ comment.children.count|pluralize:'y,ies' }} {% endif %}
+                     {% if comment.children.count > 0 %} | {{ comment.children.count }} repl{{ comment.children.count|pluralize:'y,ies' }} {% endif %}
                     {% if request.user == comment.user %}
                     | <a href="{% url 'comments:delete' comment.id %}" class=""> Delete </a>
                     {% endif %}

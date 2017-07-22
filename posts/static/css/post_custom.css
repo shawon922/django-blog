@@ -15,6 +15,6 @@
     margin-right: 0 !important;
 }
 
-.comment-reply {
+.comment-reply, .comment-edit {
     display: none;
 }

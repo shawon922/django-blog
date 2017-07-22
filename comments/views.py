@@ -9,6 +9,25 @@ from .models import Comment
 
 
 @login_required # (login_url='/login/')
+def edit_comment(request, id=None):
+    if request.method == 'POST':
+        comment = get_object_or_404(Comment, id=id)
+        content = request.POST.get('content')
+
+        if comment.user != request.user:
+            response = HttpResponse("You do not have permission to view this.")
+            response.status_code = 403
+            return response
+
+        parent_url = comment.content_object.get_absolute_url()
+        comment.content = content
+        comment.save()
+        return HttpResponseRedirect(parent_url)
+
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+
+@login_required # (login_url='/login/')
 def delete_comment(request, id=None):
     # if request.method == 'POST':
     # comment = get_object_or_404(Comment, id=id)

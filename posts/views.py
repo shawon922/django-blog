@@ -45,6 +45,7 @@ def create(request):
 
     if form.is_valid():
         instance = form.save(commit=False)
+        instance.user = request.user
         instance.save()
         messages.success(request, 'Successfully Created.')
         return HttpResponseRedirect(instance.get_absolute_url())

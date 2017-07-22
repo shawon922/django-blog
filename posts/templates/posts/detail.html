@@ -61,14 +61,37 @@
                             | {% endif %} <a class="comment-reply-btn" href="#">Reply</a>
                             | <a class="" href="{{ comment.get_absolute_url }}">Thread</a>
                             {% if request.user == comment.user %}
+                            | <a href="{% url 'comments:edit' comment.id %}" class="comment-edit-btn"> Edit </a> 
                             | <a href="{% url 'comments:delete' comment.id %}" class=""> Delete </a>
                             {% endif %}
                         </footer>
+
+                        <div class="comment-edit">
+                            
+                            {% if request.user.is_authenticated and request.user == comment.user %}
+                                <form class="comment-edit-form" method="POST" action="{% url 'comments:edit' comment.id %}">
+                                    {% csrf_token %}
+
+                                    <p> 
+                                        <textarea class="form-control" cols="40" id="id_content" name="content" rows="5" required="">{{ comment.content }}</textarea>
+                                    </p>
+
+                                    <input type="submit" value="Edit" class="btn btn-default">
+                                </form>
+                            {% else %}
+                                <p>You must login to reply.</p>
+                            {% endif %}
+                        </div>
+
                         <div class="comment-reply">
                             {% for reply in comment.children %}
                                 <blockquote>
                                     <p>{{ reply.content }}</p>
-                                    <footer>via {{ reply.user.username }} | {{ reply.timestamp|timesince }} ago </footer>
+                                    <footer>via {{ reply.user.username }} | {{ reply.timestamp|timesince }} ago 
+                                        {% if request.user == comment.user %}              
+                                        | <a href="{% url 'comments:delete' reply.id %}" class=""> Delete </a>
+                                        {% endif %}
+                                    </footer>
                                 </blockquote>
                             {% endfor %}
 
@@ -86,7 +109,6 @@
                                 <p>You must login to reply.</p>
                             {% endif %}
                         </div>
-
                     </blockquote>
                     <hr/> 
                 {% endfor %}
